@@ -59,14 +59,7 @@ jobs:
           jf config show
           pwd
 
-      - name: Create temp folder
-        run: |
-          mkdir -p queries
-          chmod -R 755 queries
-          cd queries
-          pwd
-          
-      - name: Query properties by 'team'
+      - name: Query properties by 'team=arch'
         run: |
           pwd
 
@@ -80,7 +73,7 @@ jobs:
           cat "QueryByTeam.json" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
 
-      - name: Query properties by 'team' and 'env'
+      - name: Query properties by 'team=arch' and 'env=demo'
         run: |
           jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&team=arch&env=demo" -o "QueryByTeamEnv.json"
           cat "QueryByTeamEnv.json"
@@ -91,7 +84,7 @@ jobs:
           cat "QueryByTeamEnv.json" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
 
-      - name: Query properties by build.name
+      - name: Query properties by 'build.name=node-sample-reactapp-ga'
         run: |
           jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&build.name=node-sample-reactapp-ga" -o "QueryByBuildName.json"
           cat "QueryByBuildName.json"
