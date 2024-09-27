@@ -50,13 +50,15 @@ jobs:
 
       - name: Clone VCS
         uses: actions/checkout@v4 # ref: https://github.com/actions/checkout
+      # - run: |
+      #     cd /home/runner/work/node-sample-reactapp/node-sample-reactapp
       
-      - name: NodeJs with ver = ${{ matrix.node }}
-        uses: actions/setup-node@v4  # ref: https://github.com/actions/setup-node
-        with:
-          node-version: ${{ matrix.node }}
-          cache: 'npm'
-          cache-dependency-path: 'package.json'
+      # - name: NodeJs with ver = ${{ matrix.node }}
+      #   uses: actions/setup-node@v4  # ref: https://github.com/actions/setup-node
+      #   with:
+      #     node-version: ${{ matrix.node }}
+      #     cache: 'npm'
+      #     cache-dependency-path: 'package.json'
       - name: Software version
         run: |
           # JFrog CLI version
@@ -102,7 +104,6 @@ jobs:
 # Package   
       - name: npm Build   # ref: https://docs.jfrog-applications.jfrog.io/jfrog-applications/jfrog-cli/cli-for-jfrog-artifactory/package-managers-integration#installing-npm-packages
         run: |
-          cd /home/runner/work/node-sample-reactapp/node-sample-reactapp
           jf npm install --build-name=${{ env.BUILD_NAME}} --build-number=${{ env.BUILD_ID}} 
       - name: npm publish
         run: |
