@@ -43,5 +43,6 @@ jf rt curl "/api/search/prop?repos=${RT_REPO}-virtual&build.name=${BUILD_NAME}"
 # clean
 rm -rf package-lock.json
 rm -rf .jfrog
+rm -rf temp
 
 echo "\n\n**** DONE ****\n\n"
