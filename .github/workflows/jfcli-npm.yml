@@ -34,7 +34,7 @@ jobs:
       RT_REPO_VIRTUAL: 'krishnam-npm-virtual'
       JOB_SUMMARY: false
       JFROG_CLI_LOG_LEVEL: ${{vars.JFROG_CLI_LOG_LEVEL}} # DEBUG, INFO, WARN, ERROR
-      BUILD_NAME: 'node-sample-app-ga'
+      BUILD_NAME: 'node-sample-reactapp-ga'
       BUILD_ID: ${{ github.run_number }} 
     runs-on: ${{ matrix.os }}
     steps:
@@ -52,7 +52,7 @@ jobs:
         uses: actions/checkout@v4 # ref: https://github.com/actions/checkout
       # - run: |
       #     cd /home/runner/work/node-sample-reactapp/node-sample-reactapp
-      
+
       # - name: NodeJs with ver = ${{ matrix.node }}
       #   uses: actions/setup-node@v4  # ref: https://github.com/actions/setup-node
       #   with:
@@ -85,7 +85,7 @@ jobs:
           export JFROG_CLI_LOG_LEVEL=${{ env.JFROG_CLI_LOG_LEVEL }}
           export JFROG_CLI_LOG_TIMESTAMP=DATE_AND_TIME
 
-          jf npmc --global --server-id-resolve ${JFROG_NAME} --server-id-deploy ${JFROG_NAME} --repo-resolve ${RT_REPO}-virtual --repo-deploy ${RT_REPO}-virtual
+          jf npmc --global --server-id-resolve ${{ vars.JF_NAME }} --server-id-deploy ${{ vars.JF_NAME }} --repo-resolve ${{ env.RT_REPO_VIRTUAL}} --repo-deploy ${{ env.RT_REPO_VIRTUAL}} 
 
           ls -lrta /home/runner/work/node-sample-reactapp/node-sample-reactapp
 
@@ -111,7 +111,7 @@ jobs:
 
       - name: set properties
         run: |
-          jf rt sp "env=demo;org=ps;team=arch;pack_cat=webapp;ts=ts-${BUILD_ID}" --build="${BUILD_NAME}/${BUILD_ID}"
+          jf rt sp "env=demo;org=ps;team=arch;pack_cat=webapp;ts=ts-${{ env.BUILD_ID}} " --build="${{ env.BUILD_NAME}}/${{ env.BUILD_ID}} "
 
 
 
@@ -130,3 +130,4 @@ jobs:
         run: jf rt bp ${{ env.BUILD_NAME}} ${{ env.BUILD_ID}} --detailed-summary=true
       
  # Set properties
+        
