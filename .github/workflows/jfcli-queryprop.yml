@@ -62,6 +62,8 @@ jobs:
         run: |
           jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&team=arch" -o "QueryByTeam.json"
 
+          at "QueryByTeam.json"
+
           echo "# :frog: Query property by team name :mag:" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
@@ -71,6 +73,17 @@ jobs:
       - name: Query properties by 'team' and 'env'
         run: |
           jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&team=arch&env=demo" -o "QueryByTeamEnv.json"
+          cat "QueryByTeamEnv.json"
+          
+          echo "# :frog: Query property by 'team' and 'env' :mag:" >> $GITHUB_STEP_SUMMARY
+          echo " " >> $GITHUB_STEP_SUMMARY
+          echo " " >> $GITHUB_STEP_SUMMARY
+          cat "QueryByTeamEnv.json.json" >> $GITHUB_STEP_SUMMARY
+          echo " " >> $GITHUB_STEP_SUMMARY
+
+      - name: Query properties by build name
+        run: |
+          jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&build.name=node-sample-reactapp-ga" -o "QueryByTeamEnv.json"
           
           echo "# :frog: Query property by 'team' and 'env' :mag:" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
