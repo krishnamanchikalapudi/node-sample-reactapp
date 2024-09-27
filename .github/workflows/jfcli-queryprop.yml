@@ -57,7 +57,14 @@ jobs:
           pip3 -V
           # jf config
           jf config show
+          pwd
 
+      - name: Create temp folder
+        run: |
+          mkdir -p queries
+          chmod -R 755 queries
+          cd queries
+          
       - name: Query properties by 'team'
         run: |
           jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&team=arch" -o "QueryByTeam.json"
@@ -74,7 +81,7 @@ jobs:
         run: |
           jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&team=arch&env=demo" -o "QueryByTeamEnv.json"
           cat "QueryByTeamEnv.json"
-          
+
           echo "# :frog: Query property by 'team' and 'env' :mag:" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
