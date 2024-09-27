@@ -90,7 +90,7 @@ jobs:
 
           jf npmc --global --server-id-resolve ${JFROG_NAME} --server-id-deploy ${JFROG_NAME} --repo-resolve ${RT_REPO}-virtual --repo-deploy ${RT_REPO}-virtual
 
-          ls -lrta /home/runner/work/
+          ls -lrta /home/runner/work/node-sample-reactapp/node-sample-reactapp
 
           pwd
       - name: Docker authentication  # ref https://github.com/marketplace/actions/docker-login
