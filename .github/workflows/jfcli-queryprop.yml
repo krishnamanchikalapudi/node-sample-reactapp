@@ -74,7 +74,7 @@ jobs:
 
           cat "QueryByTeam.json"
 
-          echo "# :frog: Query property by team name :mag:" >> $GITHUB_STEP_SUMMARY
+          echo "# :frog: Query properties by team name :mag:" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
           cat "QueryByTeam.json" >> $GITHUB_STEP_SUMMARY
@@ -88,15 +88,16 @@ jobs:
           echo "# :frog: Query property by 'team' and 'env' :mag:" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
-          cat "QueryByTeamEnv.json.json" >> $GITHUB_STEP_SUMMARY
+          cat "QueryByTeamEnv.json" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
 
-      - name: Query properties by build name
+      - name: Query properties by build.name
         run: |
-          jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&build.name=node-sample-reactapp-ga" -o "QueryByTeamEnv.json"
-          
-          echo "# :frog: Query property by 'team' and 'env' :mag:" >> $GITHUB_STEP_SUMMARY
+          jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&build.name=node-sample-reactapp-ga" -o "QueryByBuildName.json"
+          cat "QueryByBuildName.json"
+
+          echo "# :frog: Query property by 'build.name' :mag:" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
-          cat "QueryByTeamEnv.json.json" >> $GITHUB_STEP_SUMMARY
+          cat "QueryByBuildName.json" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
