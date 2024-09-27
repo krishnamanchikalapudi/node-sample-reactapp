@@ -85,7 +85,8 @@ jobs:
           export JFROG_CLI_LOG_LEVEL=${{ env.JFROG_CLI_LOG_LEVEL }}
           export JFROG_CLI_LOG_TIMESTAMP=DATE_AND_TIME
 
-          jf npmc --global --server-id-resolve ${{ vars.JF_NAME }} --server-id-deploy ${{ vars.JF_NAME }} --repo-resolve ${{ env.RT_REPO_VIRTUAL}} --repo-deploy ${{ env.RT_REPO_VIRTUAL}} 
+          # --server-id-resolve ${{ vars.JF_NAME }} --server-id-deploy ${{ vars.JF_NAME }}
+          jf npmc --global --repo-resolve ${{ env.RT_REPO_VIRTUAL}} --repo-deploy ${{ env.RT_REPO_VIRTUAL}} 
 
           ls -lrta /home/runner/work/node-sample-reactapp/node-sample-reactapp
 
@@ -130,4 +131,3 @@ jobs:
         run: jf rt bp ${{ env.BUILD_NAME}} ${{ env.BUILD_ID}} --detailed-summary=true
       
  # Set properties
-        
