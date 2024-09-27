@@ -64,12 +64,15 @@ jobs:
           mkdir -p queries
           chmod -R 755 queries
           cd queries
+          pwd
           
       - name: Query properties by 'team'
         run: |
+          pwd
+
           jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&team=arch" -o "QueryByTeam.json"
 
-          at "QueryByTeam.json"
+          cat "QueryByTeam.json"
 
           echo "# :frog: Query property by team name :mag:" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
