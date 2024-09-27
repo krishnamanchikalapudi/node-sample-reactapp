@@ -1,0 +1,79 @@
+name: JF-CLI - Query properties
+on:
+# TURN-OFF on every push 
+  push:
+    branches: 
+      - develop
+  issue_comment:
+    types: [created]
+  pull_request_target:
+    types: [opened, synchronize]
+permissions:
+  actions: read # for detecting the Github Actions environment.
+  id-token: write # for creating OIDC tokens for signing.
+  packages: write # for uploading attestations.
+  contents: read
+  security-events: write # Required for uploading code scanning.
+jobs:
+  npmpackage:
+    name: Queries
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+    env:  
+      JF_RT_URL: https://${{ vars.JF_NAME }}.jfrog.io
+      RT_REPO_VIRTUAL: 'krishnam-npm-virtual'
+      JFROG_CLI_LOG_LEVEL: ${{vars.JFROG_CLI_LOG_LEVEL}} # DEBUG, INFO, WARN, ERROR
+    runs-on: ${{ matrix.os }}
+    steps:
+      # Use the specific setup-cli branch. Ref https://github.com/marketplace/actions/setup-jfrog-cli
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v4
+        id: setup-cli
+        env:
+          JF_URL: ${{env.JF_RT_URL}}
+          JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          oidc-provider-name: ${{ vars.JF_OIDC_PROVIDER_NAME }}
+
+      - name: Software version
+        run: |
+          # JFrog CLI version
+          jf --version
+          # Ping the server
+          jf rt ping
+          # NodeJS
+          node -v
+          npm -v
+          # Java
+          java -version
+          # MVN
+          mvn -version
+          # Docker
+          docker -v
+          # Python
+          python3 -V
+          pip3 -V
+          # jf config
+          jf config show
+
+      - name: Query properties by 'team'
+        run: |
+          jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&team=arch" -o "QueryByTeam.json"
+
+          echo "# :frog: Query property by team name :mag:" >> $GITHUB_STEP_SUMMARY
+          echo " " >> $GITHUB_STEP_SUMMARY
+          echo " " >> $GITHUB_STEP_SUMMARY
+          cat "QueryByTeam.json" >> $GITHUB_STEP_SUMMARY
+          echo " " >> $GITHUB_STEP_SUMMARY
+
+      - name: Query properties by 'team' and 'env'
+        run: |
+          jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&team=arch&env=demo" -o "QueryByTeamEnv.json"
+          
+          echo "# :frog: Query property by 'team' and 'env' :mag:" >> $GITHUB_STEP_SUMMARY
+          echo " " >> $GITHUB_STEP_SUMMARY
+          echo " " >> $GITHUB_STEP_SUMMARY
+          cat "QueryByTeamEnv.json.json" >> $GITHUB_STEP_SUMMARY
+          echo " " >> $GITHUB_STEP_SUMMARY

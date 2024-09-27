@@ -110,12 +110,6 @@ jobs:
         run: |
           jf npm publish --build-name=${{ env.BUILD_NAME}} --build-number=${{ env.BUILD_ID}} 
 
-      - name: set properties
-        run: |
-          jf rt sp "env=demo;org=ps;team=arch;pack_cat=webapp;ts=ts-${{ env.BUILD_ID}} " --build="${{ env.BUILD_NAME}}/${{ env.BUILD_ID}} "
-
-
-
  # Build Info
     # US Dept of Commerce: https://www.ntia.gov/page/software-bill-materials
     # US Cyber Defence Agency: https://www.cisa.gov/sbom
@@ -129,5 +123,10 @@ jobs:
 
       - name: Build Publish   # ref: https://docs.jfrog-applications.jfrog.io/jfrog-applications/jfrog-cli/cli-command-summaries
         run: jf rt bp ${{ env.BUILD_NAME}} ${{ env.BUILD_ID}} --detailed-summary=true
-      
- # Set properties
+
+# Set properties      
+      - name: Set properties 
+        run: |
+          ts="cmd.$(date '+%Y-%m-%d-%H-%M')" 
+          jf rt sp "env=demo;org=ps;team=arch;pack_cat=webapp;ts=${ts}" --build="${{ env.BUILD_NAME}}/${{ env.BUILD_ID}}"
+          
