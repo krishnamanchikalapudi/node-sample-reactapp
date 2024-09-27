@@ -23,7 +23,8 @@ jobs:
         os: [ubuntu-latest]
     env:  
       JF_RT_URL: https://${{ vars.JF_NAME }}.jfrog.io
-      RT_REPO_VIRTUAL: 'krishnam-npm-virtual'
+      RT_REPO_NPM_VIRTUAL: 'krishnam-npm-virtual'
+      RT_REPO_MVN_VIRTUAL: 'krishnam-mvn-virtual'
       JFROG_CLI_LOG_LEVEL: ${{vars.JFROG_CLI_LOG_LEVEL}} # DEBUG, INFO, WARN, ERROR
     runs-on: ${{ matrix.os }}
     steps:
@@ -63,11 +64,11 @@ jobs:
         run: |
           pwd
 
-          jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&team=arch" -o "QueryByTeam.json"
+          jf rt curl "/api/search/prop?repos=${{env.RT_REPO_NPM_VIRTUAL}}&team=arch" -o "QueryByTeam.json"
 
           cat "QueryByTeam.json"
 
-          echo "# :frog: Query properties by team name :mag:" >> $GITHUB_STEP_SUMMARY
+          echo "# :frog: Query properties by 'team=arch' :mag:" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
           cat "QueryByTeam.json" >> $GITHUB_STEP_SUMMARY
@@ -75,10 +76,10 @@ jobs:
 
       - name: Query properties by 'team=arch' and 'env=demo'
         run: |
-          jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&team=arch&env=demo" -o "QueryByTeamEnv.json"
+          jf rt curl "/api/search/prop?repos=${{env.RT_REPO_NPM_VIRTUAL}}&team=arch&env=demo" -o "QueryByTeamEnv.json"
           cat "QueryByTeamEnv.json"
 
-          echo "# :frog: Query property by 'team' and 'env' :mag:" >> $GITHUB_STEP_SUMMARY
+          echo "# :frog: Query property by 'team=arch&env=demo' :mag:" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
           cat "QueryByTeamEnv.json" >> $GITHUB_STEP_SUMMARY
@@ -86,11 +87,22 @@ jobs:
 
       - name: Query properties by 'build.name=node-sample-reactapp-ga'
         run: |
-          jf rt curl "/api/search/prop?repos=${{env.RT_REPO_VIRTUAL}}&build.name=node-sample-reactapp-ga" -o "QueryByBuildName.json"
-          cat "QueryByBuildName.json"
+          jf rt curl "/api/search/prop?repos=${{env.RT_REPO_NPM_VIRTUAL}}&build.name=node-sample-reactapp-ga" -o "QueryByNpmBuildName.json"
+          cat "QueryByNpmBuildName.json"
 
-          echo "# :frog: Query property by 'build.name' :mag:" >> $GITHUB_STEP_SUMMARY
+          echo "# :frog: Query property by 'build.name=node-sample-reactapp-ga' :mag:" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
-          cat "QueryByBuildName.json" >> $GITHUB_STEP_SUMMARY
+          cat "QueryByNpmBuildName.json" >> $GITHUB_STEP_SUMMARY
+          echo " " >> $GITHUB_STEP_SUMMARY
+
+      - name: Query properties by 'build.name=spring-petclinic-ga'
+        run: |
+          jf rt curl "/api/search/prop?repos=${{env.RT_REPO_MVN_VIRTUAL}}&build.name=spring-petclinic-ga" -o "QueryByMvnBuildName.json"
+          cat "QueryByMvnBuildName.json"
+
+          echo "# :frog: Query property by 'build.name=spring-petclinic-ga' :mag:" >> $GITHUB_STEP_SUMMARY
+          echo " " >> $GITHUB_STEP_SUMMARY
+          echo " " >> $GITHUB_STEP_SUMMARY
+          cat "QueryByMvnBuildName.json" >> $GITHUB_STEP_SUMMARY
           echo " " >> $GITHUB_STEP_SUMMARY
