@@ -25,3 +25,5 @@ npm start
 - <details><summary>Error: EACCES: permission denied, mkdir '/etc/todos'</summary>
 Run below command to resolve the error
 `````` sudo npm install -g --unsafe-perm=true --allow-root `````` </details>
+- <details><summary>Error: Dependencies lock file is not found in /home/runner/work/node-sample-reactapp/node-sample-reactapp. Supported file patterns: package-lock.json,npm-shrinkwrap.json,yarn.lock</summary>
+`````` cache-dependency-path: package-lock.json `````` </details>
