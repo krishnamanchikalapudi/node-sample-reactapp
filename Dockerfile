@@ -12,4 +12,4 @@ RUN chmod -R 777 *
 RUN ./jfcli-npm.sh
 
 EXPOSE 3000
-CMD [ "npm", "run dev"]
+CMD [ "npm", "start"]

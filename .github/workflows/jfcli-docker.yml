@@ -23,7 +23,7 @@ permissions:
   security-events: write # Required for uploading code scanning.
 jobs:
   dockernpm:
-    name: NPM Package
+    name: Docker NPM Package
     strategy:
       fail-fast: false
       matrix:
@@ -56,11 +56,11 @@ jobs:
       - name: Clone VCS
         uses: actions/checkout@v4 # ref: https://github.com/actions/checkout
 
-      - name: NodeJs with ver = ${{ matrix.node }}
-        uses: actions/setup-node@v4  # ref: https://github.com/actions/setup-node
-        with:
-          node-version: ${{ matrix.node }}
-          cache: 'npm'
+      # - name: NodeJs with ver = ${{ matrix.node }}
+      #   uses: actions/setup-node@v4  # ref: https://github.com/actions/setup-node
+      #   with:
+      #     node-version: ${{ matrix.node }}
+      #     cache: 'npm'
 
       - name: Software version
         run: |
@@ -83,12 +83,12 @@ jobs:
           # jf config
           jf config show
 
-      - name: Config jf with npm repos  # ref: https://docs.jfrog-applications.jfrog.io/jfrog-applications/jfrog-cli/cli-for-jfrog-artifactory/package-managers-integration#setting-npm-repositories
+      - name: Config jf with npm repos # ref: https://docs.jfrog-applications.jfrog.io/jfrog-applications/jfrog-cli/cli-for-jfrog-artifactory/package-managers-integration#setting-npm-repositories
         run: |
           export JFROG_CLI_LOG_LEVEL=${{ env.JFROG_CLI_LOG_LEVEL }}
           export JFROG_CLI_LOG_TIMESTAMP=DATE_AND_TIME
 
-          jf npmc --global --server-id-resolve ${JFROG_NAME} --server-id-deploy ${JFROG_NAME} --repo-resolve ${RT_REPO}-virtual --repo-deploy ${RT_REPO}-virtual
+          jf npmc --global --repo-resolve ${{ env.RT_REPO_VIRTUAL}} --repo-deploy ${{ env.RT_REPO_VIRTUAL}} 
 
           ls -lrta /home/runner/work/node-sample-reactapp/node-sample-reactapp
 
@@ -129,6 +129,7 @@ jobs:
       - name: npm Build   # ref: https://docs.jfrog-applications.jfrog.io/jfrog-applications/jfrog-cli/cli-for-jfrog-artifactory/package-managers-integration#installing-npm-packages
         run: |
           jf npm install --build-name=${{ env.BUILD_NAME}} --build-number=${{ env.BUILD_ID}} 
+        
       - name: npm publish   # ref: https://docs.jfrog-applications.jfrog.io/jfrog-applications/jfrog-cli/cli-for-jfrog-artifactory/package-managers-integration#publishing-the-npm-packages-into-artifactory
         run: |
           jf npm publish --build-name=${{ env.BUILD_NAME}} --build-number=${{ env.BUILD_ID}} 

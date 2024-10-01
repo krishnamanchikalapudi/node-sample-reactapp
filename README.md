@@ -1,4 +1,7 @@
 # node-sample-reactapp
+- [![JF-CLI - NPM publish & BuildInfo](https://github.com/krishnamanchikalapudi/node-sample-reactapp/actions/workflows/jfcli-npm.yml/badge.svg)](https://github.com/krishnamanchikalapudi/node-sample-reactapp/actions/workflows/jfcli-npm.yml)
+- [![JF-CLI with Docker](https://github.com/krishnamanchikalapudi/node-sample-reactapp/actions/workflows/jfcli-docker.yml/badge.svg)](https://github.com/krishnamanchikalapudi/node-sample-reactapp/actions/workflows/jfcli-docker.yml)
+- [![JF-CLI - Query properties](https://github.com/krishnamanchikalapudi/node-sample-reactapp/actions/workflows/jfcli-queryprop.yml/badge.svg)](https://github.com/krishnamanchikalapudi/node-sample-reactapp/actions/workflows/jfcli-queryprop.yml)
 
 ### Prerequisite
 - Install JFrog CLI: [https://jfrog.com/getcli/](https://jfrog.com/getcli/
@@ -18,7 +21,14 @@ jf c add --user=<USER_ID> --interactive=true --url=https://<SAAS_HOST>.jfrog.io 
 npm start
 ``````
 ### Docker
+``````
+./jf-docker.sh
+``````
+### run
+``````
+docker run -d --name node-sample-reactapp -p 7080:8080 ${orgName}/${imageName}:latest
 
+``````
 
 
 # Errors
