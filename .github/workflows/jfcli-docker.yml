@@ -32,11 +32,12 @@ jobs:
     env:  
       JF_RT_URL: https://${{ vars.JF_NAME }}.jfrog.io
       JF_GIT_TOKEN: ${{ vars.GITHUB_TOKEN }}
-      RT_REPO_VIRTUAL: ${{ vars.RT_MVN_REPO_VIRTUAL}}
-      RT_DOCKER_REPO_VIRTUAL: ${{ vars.RT_DOCKER_REPO_VIRTUAL}} 
+      RT_REPO_VIRTUAL: 'krishnam-npm-virtual'
+      RT_DOCKER_REPO_VIRTUAL: 'krishnam-docker-virtual'
       JOB_SUMMARY: false
       JFROG_CLI_LOG_LEVEL: ${{vars.JFROG_CLI_LOG_LEVEL}} # DEBUG, INFO, WARN, ERROR
-      BUILD_NAME: 'node-sample-app-ga'
+      DOCKER_METADATA_JSON: 'metadata.json'
+      BUILD_NAME: 'node-sample-app-docker'
       BUILD_ID: ${{ github.run_number }} 
       DOCKER_BUILDX_PLATFORMS: 'linux/amd64,linux/arm64'
     runs-on: ${{ matrix.os }}
@@ -124,8 +125,7 @@ jobs:
       - name: npm Build   # ref: https://docs.jfrog-applications.jfrog.io/jfrog-applications/jfrog-cli/cli-for-jfrog-artifactory/package-managers-integration#installing-npm-packages
         run: |
           jf npm install --build-name=${{ env.BUILD_NAME}} --build-number=${{ env.BUILD_ID}} 
-        
-      - name: npm publish   # ref: https://docs.jfrog-applications.jfrog.io/jfrog-applications/jfrog-cli/cli-for-jfrog-artifactory/package-managers-integration#publishing-the-npm-packages-into-artifactory
+      - name: npm publish
         run: |
           jf npm publish --build-name=${{ env.BUILD_NAME}} --build-number=${{ env.BUILD_ID}} 
 
